@@ -1,0 +1,42 @@
+{
+  "manifest_version": 3,
+  "name": "MD Editor",
+  "version": "1.0.0",
+  "description": "Markdown editor with live preview, TOC, mermaid diagrams, and syntax highlighting. Also auto-renders .md files you open in Chrome.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "Open MD Editor",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["file://*/*", "http://*/*", "https://*/*"],
+      "include_globs": ["*.md", "*.markdown", "*.mdown", "*.md#*", "*.markdown#*"],
+      "js": [
+        "vendor/marked.min.js",
+        "vendor/highlight.min.js",
+        "vendor/mermaid.min.js",
+        "core.js",
+        "content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["viewer.css", "vendor/github.min.css", "vendor/github-dark.min.css"],
+      "matches": ["<all_urls>"]
+    }
+  ]
+}
